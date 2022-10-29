@@ -3,15 +3,8 @@ const {Router} = require('express')
 const postController = require('./postController.js')
 const router = Router()
 
-router.post('/posts', postController.create )
-router.get('/binance-price', postController.getPriceBinance )
+router.get('/buyrub', postController.buyrub )
 router.get('/houbi-price', postController.getHuobi)
-router.get('/postss',postController.getOne )
 router.get('/bigpapa', postController.update )
-router.delete('/posts/:id',postController.delete )
-router.get('/collections',postController.collections)
-router.get('/search',postController.search)
-router.post('/login',postController.login)
-router.post('/getToken',postController.getToken)
 
 module.exports = router;
