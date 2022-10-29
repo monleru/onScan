@@ -5,7 +5,7 @@ const router = Router()
 
 router.post('/posts', postController.create )
 router.get('/binance-price', postController.getPriceBinance )
-router.get('/data/:currency', postController.data)
+router.get('/houbi-price', postController.getHuobi)
 router.get('/posts/:id',postController.getOne )
 router.put('/posts', postController.update )
 router.delete('/posts/:id',postController.delete )

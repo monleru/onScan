@@ -107,24 +107,31 @@ class PostController {
             res.status(500).json(e)
         }
     }
-    async data(req, res) {
+    async getHuobi(req, res) {
         let response = null;
             try {
-                const {currency} = req.params;
-                response = await axios.get(` https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?id=11419&convert=${currency}`, {
-                    headers: {
-                        'X-CMC_PRO_API_KEY': 'b85bd06c-19cd-486f-a304-f1ba22178f9c',
-                    },
-                });
+                const params = req.query;
+                response = await axios.get(`https://otc-api.trygofast.com/v1/data/trade-market?coinId=2&currency=11&tradeType=${params.tradeType}&currPage=1&payMethod=28&acceptOrder=0&country=&blockType=general&online=1&range=0&amount=&onlyTradable=false&isFollowed=false`,{})
+                let huobi_price = response.data.data[1].price
+                response = await axios.get(`https://otc-api.trygofast.com/v1/data/trade-market?coinId=2&currency=11&tradeType=${params.tradeType}&currPage=1&payMethod=29&acceptOrder=-1&country=&blockType=general&online=1&range=0&amount=&isThumbsUp=false&isMerchant=false&isTraded=false&onlyTradable=false&isFollowed=false`,{})
+                let huobi_sber = response.data.data[1].price
+                response = await axios.get(`https://otc-api.trygofast.com/v1/data/trade-market?coinId=2&currency=11&tradeType=${params.tradeType}&currPage=1&payMethod=36&acceptOrder=-1&country=&blockType=general&online=1&range=0&amount=&isThumbsUp=false&isMerchant=false&isTraded=false&onlyTradable=false&isFollowed=false`,{})
+                let raif = response.data.data[1].price
+                response = await axios.get(`https://otc-api.trygofast.com/v1/data/trade-market?coinId=2&currency=11&tradeType=${params.tradeType}&currPage=1&payMethod=358&acceptOrder=-1&country=&blockType=general&online=1&range=0&amount=&isThumbsUp=false&isMerchant=false&isTraded=false&onlyTradable=false&isFollowed=false`,{})
+                let ros = response.data.data[1].price
+                response = await axios.get(`https://otc-api.trygofast.com/v1/data/trade-market?coinId=2&currency=11&tradeType=${params.tradeType}&currPage=1&payMethod=45&acceptOrder=-1&country=&blockType=general&online=1&range=0&amount=&isThumbsUp=false&isMerchant=false&isTraded=false&onlyTradable=false&isFollowed=false`,{})
+                console.log(response.data)
+                const otp = 0
+                if (response.data.totalCount != 0) {
+                    otp = response.data.data[0].price
+                }
+                response = await axios.get(`https://otc-api.trygofast.com/v1/data/trade-market?coinId=2&currency=11&tradeType=${params.tradeType}&currPage=1&payMethod=176,45&acceptOrder=-1&country=&blockType=general&online=1&range=0&amount=&isThumbsUp=false&isMerchant=false&isTraded=false&onlyTradable=false&isFollowed=false`,{})
+                let akbars = response.data.data[0].price
+                return res.json({tink: huobi_price, sber: huobi_sber, raif: raif, ros: ros, otp: otp, akbars: akbars});
             } catch(ex) {
                 response = null;
                 // error
                 return res.json(ex)
-            }
-            if (response) {
-                // success
-                const json = response.data;
-                return res.json(json)
             }
     }
     async collections(req, res) {
