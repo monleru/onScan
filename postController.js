@@ -72,25 +72,34 @@ class PostController {
         }
     }
     async getOne(req, res) {
+        let response;
         try {
-            const {id} = req.params
-            if (!id) {
-                res.status(400).json({message: 'Id не указан'})
-            }
-            const posts = await Post.findById(id);
-            return res.json(posts);
+            let response = await axios.get('https://api2.bybit.com/spot/api/otc/item/list?userId=&tokenId=USDT&currencyId=RUB&payment=75&side=1&size=10&page=1&amount=',{}
+                 )
+            let tink = response.data.result.items[0].price
+            response = await axios.get('https://api2.bybit.com/spot/api/otc/item/list?userId=&tokenId=USDT&currencyId=RUB&payment=377&side=1&size=10&page=1&amount=',{}
+                 )
+            let sber = response.data.result.items[0].price
+            response = await axios.get('https://api2.bybit.com/spot/api/otc/item/list?userId=&tokenId=USDT&currencyId=RUB&payment=64&side=1&size=10&page=1&amount=',{}
+                 )
+            let raif = response.data.result.items[0].price
+            response = await axios.get('https://api2.bybit.com/spot/api/otc/item/list?userId=&tokenId=USDT&currencyId=RUB&payment=185&side=1&size=10&page=1&amount=',{}
+                 )
+            let ros = response.data.result.items[0].price
+            response = await axios.get('https://api2.bybit.com/spot/api/otc/item/list?userId=&tokenId=USDT&currencyId=RUB&payment=49&side=1&size=10&page=1&amount=',{}
+                 )
+            let otp = response.data.result.items[0].price
+            return res.json({tink: tink, sber: sber, raif:raif, ros: ros, otp: otp, akbars: 0});
         } catch (e) {
             res.status(500).json(e)
         }
     }
     async update(req, res) {
         try {
-            const post = req.body;
-            if (!post._id) {
-                res.status(400).json({message: 'Id не указан'})
-            }
-            const updatedPost = await Post.findByIdAndUpdate(post._id, post, {new: true})
-            return res.json(updatedPost)
+            let response = await axios.get('https://bitpapa.com/api/v1/pro/search?crypto_amount=&type=buy&page=1&sort=-price&currency_code=RUB&previous_currency_code=RUB&crypto_currency_code=USDT&with_correct_limits=false&payment_method_bank_code=B3&limit=20',{}
+            )
+            console.log(response.data)
+            return res.json(response.data.ads[0])
         } catch (e) {
             res.status(500).json(e)
         }
