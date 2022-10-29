@@ -122,6 +122,27 @@ class PostController {
             res.status(500).json(e)
         }
     }
+    async corona(req, res) {
+        try {
+            let turkey = await axios.get('https://koronapay.com/transfers/online/api/transfers/tariffs?sendingCountryId=RUS&sendingCurrencyId=810&receivingCountryId=TUR&receivingCurrencyId=840&paymentMethod=debitCard&receivingAmount=1000&receivingMethod=cash&paidNotificationEnabled=true',{})
+            let azer = await axios.get('https://koronapay.com/transfers/online/api/transfers/tariffs?sendingCountryId=RUS&sendingCurrencyId=810&receivingCountryId=AZE&receivingCurrencyId=840&paymentMethod=debitCard&receivingAmount=1000&receivingMethod=cash&paidNotificationEnabled=true',{})
+            let kirg = await axios.get('https://koronapay.com/transfers/online/api/transfers/tariffs?sendingCountryId=RUS&sendingCurrencyId=810&receivingCountryId=KGZ&receivingCurrencyId=840&paymentMethod=debitCard&receivingAmount=1000&receivingMethod=cash&paidNotificationEnabled=true',{})
+            let uzb = await axios.get('https://koronapay.com/transfers/online/api/transfers/tariffs?sendingCountryId=RUS&sendingCurrencyId=810&receivingCountryId=UZB&receivingCurrencyId=840&paymentMethod=debitCard&receivingAmount=1000&receivingMethod=cash&paidNotificationEnabled=true',{})
+            let kaz = await axios.get('https://koronapay.com/transfers/online/api/transfers/tariffs?sendingCountryId=RUS&sendingCurrencyId=810&receivingCountryId=KAZ&receivingCurrencyId=840&paymentMethod=debitCard&receivingAmount=1000&receivingMethod=cash&paidNotificationEnabled=true',{})
+            let gruzia = await axios.get('https://koronapay.com/transfers/online/api/transfers/tariffs?sendingCountryId=RUS&sendingCurrencyId=810&receivingCountryId=GEO&receivingCurrencyId=840&paymentMethod=debitCard&receivingAmount=1000&receivingMethod=cash&paidNotificationEnabled=true',{})
+            
+            
+            return res.json({
+                turkey: turkey.data[0].exchangeRate,
+                azer: azer.data[0].exchangeRate,
+                kirg: kirg.data[0].exchangeRate,
+                uzb: uzb.data[0].exchangeRate,
+                kaz: kaz.data[0].exchangeRate,
+                gruzia: gruzia.data[0].exchangeRate})
+        } catch (e) {
+            res.status(500).json(e)
+        }
+    }
     
 }
 
