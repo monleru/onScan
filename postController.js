@@ -1,6 +1,7 @@
 const Post = require('./post.js')
 const axios = require('axios');
 const crypto = require("crypto");
+const cheerio = require('cheerio');
 async function test() {
     try {
         let responce = await axios.post('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search',
@@ -139,6 +140,31 @@ class PostController {
                 uzb: uzb.data[0].exchangeRate,
                 kaz: kaz.data[0].exchangeRate,
                 gruzia: gruzia.data[0].exchangeRate})
+        } catch (e) {
+            res.status(500).json(e)
+        }
+    }
+    async pars(req, res) {
+        try {
+            let data = await axios.get('https://p2p.army',{})
+            let $ = cheerio.load(data.data)
+            $.html()
+            let b
+            let array = [4,8,12,16,20];
+            let array1 =[]
+            for (let zzz = 1; zzz< 7; zzz++) {
+                for (let i = 0; i < 5 ; i++) {
+                    b = $('.tRow3Cols','div',).eq(-zzz).find('div').eq(array[i]).find('div').eq(0).text()
+                    array1.push(b)
+                    for (let aa = 1; aa < 3; aa++ ) {
+                        let s = $('.tRow3Cols','div',).eq(-zzz).find('div').eq(array[i]).find('div').eq(aa).text()
+                        array1.push(s)
+                    }
+                }
+            }
+            
+            return res.json({
+                turkey: array1})
         } catch (e) {
             res.status(500).json(e)
         }
